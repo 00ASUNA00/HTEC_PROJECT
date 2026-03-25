@@ -1,0 +1,16 @@
+/.DS_Store
+/.idea/
+/.vscode/
+/node_modules/
+
+# User-uploaded content
+/uploads/
+
+# Local environment / secrets
+*.env
+*.env.*
+credentials*.json
+
+# Logs / runtime
+*.log
+*.pid
