@@ -57,17 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: { htec: { red:'#E31837', dark:'#0A0A0A', gray:'#111111', mid:'#1A1A1A', border:'#2A2A2A', text:'#A0A0A0' } },
-                fontFamily: { display:['Syne','sans-serif'], body:['DM Sans','sans-serif'] }
-            }
-        }
-    }
-    </script>
+    <!-- Tailwind (self-hosted build) -->
+    <link rel="stylesheet" href="<?= url('assets/css/tailwind.generated.css') ?>">
     <link rel="stylesheet" href="<?= url('assets/css/main.css') ?>">
     <style>
         .login-bg {
