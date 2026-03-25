@@ -22,9 +22,41 @@
     // ============================================================
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
     if (menuBtn && mobileMenu) {
+        const openMenu = () => {
+            mobileMenu.classList.remove('hidden');
+            mobileMenuOverlay?.classList.remove('hidden');
+            menuBtn.setAttribute('aria-expanded', 'true');
+        };
+
+        const closeMenu = () => {
+            mobileMenu.classList.add('hidden');
+            mobileMenuOverlay?.classList.add('hidden');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        };
+
         menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            const isClosed = mobileMenu.classList.contains('hidden');
+            if (isClosed) openMenu();
+            else closeMenu();
+        });
+
+        mobileMenuOverlay?.addEventListener('click', closeMenu);
+
+        // Close on Escape for better UX/accessibility.
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMenu();
+        });
+
+        // Close on navigation to avoid leaving the menu open.
+        mobileMenu.querySelectorAll('a').forEach((a) => {
+            a.addEventListener('click', closeMenu);
+        });
+
+        // Close when switching to desktop layout.
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) closeMenu(); // md breakpoint
         });
     }
 

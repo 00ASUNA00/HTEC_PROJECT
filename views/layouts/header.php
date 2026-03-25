@@ -66,7 +66,8 @@
             </div>
 
             <!-- Mobile hamburger -->
-            <button id="menu-btn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 group">
+            <button id="menu-btn" type="button" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 group"
+                aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line w-4"></span>
@@ -74,8 +75,11 @@
         </div>
     </div>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden"></div>
+
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-htec-gray border-t border-htec-border">
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-htec-gray border-t border-htec-border z-50">
         <div class="px-6 py-6 flex flex-col gap-4">
             <a href="<?= url() ?>" class="mobile-nav-link">Home</a>
             <a href="<?= url('products.php') ?>" class="mobile-nav-link">Products</a>

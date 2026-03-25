@@ -12,7 +12,7 @@ define('DB_CHARSET', 'utf8mb4');
 
 // Application Settings
 define('APP_NAME', 'HTEC');
-define('APP_URL', 'http://localhost/htec');
+define('APP_URL', 'http://localhost/HTEC_PROJECT/htec');
 define('APP_VERSION', '1.0.0');
 
 // Upload Settings
