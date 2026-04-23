@@ -4,7 +4,6 @@
  */
 require_once __DIR__ . '/../config/helpers.php';
 require_once __DIR__ . '/../models/OtherModels.php';
-
 requireAdmin();
 
 $adminTitle      = 'Messages';
@@ -36,7 +35,7 @@ $messages = $contactModel->getAll();
 include __DIR__ . '/../views/admin/header.php';
 ?>
 
-<div class="flex items-center justify-between mb-6">
+<div class="admin-page-head flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
     <div>
         <div class="breadcrumb mb-1">
             <a href="<?= url('admin/') ?>">Dashboard</a>

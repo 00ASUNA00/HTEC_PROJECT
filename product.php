@@ -112,7 +112,7 @@ include __DIR__ . '/views/layouts/header.php';
             <!-- Action Buttons -->
             <div class="flex flex-wrap gap-4 fade-up">
                 <a href="<?= url('contact.php?product=' . urlencode($product['name'])) ?>" class="btn-primary px-8 py-4">
-                    <i class="fas fa-envelope mr-2"></i> Request Quote
+                    <i class="fas fa-envelope mr-2"></i> Contact Us
                 </a>
                 
                 <?php if ($product['datasheet']): ?>

@@ -40,7 +40,7 @@
 
             <!-- CTA -->
             <div class="hidden md:flex items-center gap-4">
-                <a href="<?= url('contact.php') ?>" class="btn-primary text-sm px-6 py-2.5">Get a Quote</a>
+                <a href="<?= url('contact.php') ?>" class="btn-primary text-sm px-6 py-2.5">Contact Us</a>
             </div>
 
             <!-- Mobile hamburger -->
@@ -64,7 +64,7 @@
             <a href="<?= url('services.php') ?>" class="mobile-nav-link">Services</a>
             <a href="<?= url('portfolio.php') ?>" class="mobile-nav-link">Portfolio</a>
             <a href="<?= url('contact.php') ?>" class="mobile-nav-link">Contact</a>
-            <a href="<?= url('contact.php') ?>" class="btn-primary text-center mt-2">Get a Quote</a>
+            <a href="<?= url('contact.php') ?>" class="btn-primary text-center mt-2">Contact Us</a>
         </div>
     </div>
 </nav>

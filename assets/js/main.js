@@ -236,8 +236,60 @@
     const adminSidebar = document.getElementById('admin-sidebar');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
     if (sidebarToggle && adminSidebar) {
-        sidebarToggle.addEventListener('click', () => adminSidebar.classList.toggle('open'));
-        sidebarOverlay?.addEventListener('click', () => adminSidebar.classList.remove('open'));
+        const showOverlay = () => {
+            if (!sidebarOverlay) return;
+            sidebarOverlay.style.display = 'block';
+            sidebarOverlay.style.pointerEvents = 'auto';
+            sidebarOverlay.setAttribute('aria-hidden', 'false');
+        };
+
+        const hideOverlay = () => {
+            if (!sidebarOverlay) return;
+            sidebarOverlay.style.display = 'none';
+            sidebarOverlay.style.pointerEvents = 'none';
+            sidebarOverlay.setAttribute('aria-hidden', 'true');
+        };
+
+        const closeSidebar = () => {
+            adminSidebar.classList.remove('open');
+            sidebarOverlay?.classList.remove('open');
+            hideOverlay();
+        };
+
+        sidebarToggle.addEventListener('click', () => {
+            const isOpen = adminSidebar.classList.contains('open');
+            if (isOpen) closeSidebar();
+            else {
+                adminSidebar.classList.add('open');
+                sidebarOverlay?.classList.add('open');
+                showOverlay();
+            }
+        });
+
+        sidebarOverlay?.addEventListener('click', closeSidebar);
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1024) closeSidebar();
+        });
+        closeSidebar();
     }
+
+    // ============================================================
+    // Admin: Responsive table labels (auto)
+    // ============================================================
+    const adminTables = document.querySelectorAll('.admin-table');
+    adminTables.forEach((table) => {
+        const headers = Array.from(table.querySelectorAll('thead th')).map((th) =>
+            (th.textContent || '').trim()
+        );
+        if (!headers.length) return;
+
+        table.querySelectorAll('tbody tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell, index) => {
+                if (!cell.hasAttribute('data-label')) {
+                    cell.setAttribute('data-label', headers[index] || '');
+                }
+            });
+        });
+    });
 
 })();

@@ -34,7 +34,7 @@ include __DIR__ . '/../views/admin/header.php';
 ?>
 
 <!-- Header Row -->
-<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+<div class="admin-page-head flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
     <div>
         <div class="breadcrumb mb-1">
             <a href="<?= url('admin/') ?>">Dashboard</a>
@@ -49,8 +49,8 @@ include __DIR__ . '/../views/admin/header.php';
 </div>
 
 <!-- Search -->
-<form method="GET" class="mb-6 flex gap-3">
-    <div class="relative flex-1 max-w-md">
+<form method="GET" class="admin-search-form mb-6 flex gap-3">
+    <div class="relative flex-1 max-w-md min-w-0">
         <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-htec-text text-sm"></i>
         <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search products…" class="admin-input pl-9">
     </div>

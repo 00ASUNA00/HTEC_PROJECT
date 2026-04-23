@@ -150,7 +150,7 @@ include __DIR__ . '/../views/admin/header.php';
                         <input type="number" name="sort_order" value="<?= (int)($data['sort_order'] ?? 0) ?>" class="admin-input" min="0">
                         <p class="text-htec-text text-xs mt-1">Lower = appears first</p>
                     </div>
-                    <div class="border-t border-htec-border pt-4 flex gap-3">
+                    <div class="admin-form-actions border-t border-htec-border pt-4 flex gap-3">
                         <button type="submit" class="btn-primary btn-sm flex-1 justify-center">
                             <?= $isEdit ? 'Update' : 'Create' ?>
                         </button>

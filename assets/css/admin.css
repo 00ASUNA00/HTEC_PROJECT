@@ -9,7 +9,7 @@
     --mid: #1A1A1A;
     --border: #2A2A2A;
     --text: #A0A0A0;
-    --text-light: #D0D0D0;
+    --text-light: #d0d0d0;
     --sidebar-w: 260px;
 }
 
@@ -169,11 +169,155 @@ select.admin-input { cursor: pointer; }
 .breadcrumb a { color: var(--text); text-decoration: none; }
 .breadcrumb a:hover { color: var(--white); }
 .breadcrumb-sep { color: #333; }
+.admin-page-head { width: 100%; }
+.admin-search-form { width: 100%; }
+.admin-form-actions { align-items: center; }
 
 /* ---- Mobile Sidebar Toggle ---- */
+#sidebar-overlay {
+    display: none !important;
+    pointer-events: none;
+}
+
 @media (max-width: 1024px) {
     #admin-sidebar { transform: translateX(-100%); }
     #admin-sidebar.open { transform: translateX(0); }
     #admin-main { margin-left: 0; }
-    #sidebar-overlay { display: block; }
+    #admin-topbar { padding: 0 1rem; }
+    #admin-content { padding: 1.25rem; }
+    #sidebar-overlay.open {
+        display: block !important;
+        pointer-events: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    #admin-topbar {
+        height: 56px;
+        padding: 0 0.875rem;
+    }
+    .topbar-title {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 52vw;
+    }
+    #admin-content { padding: 1rem; }
+    .breadcrumb {
+        flex-wrap: wrap;
+        row-gap: 0.25rem;
+    }
+    .admin-page-head .btn-primary,
+    .admin-page-head .btn-outline {
+        width: 100%;
+        justify-content: center;
+    }
+    .admin-search-form {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .admin-search-form > .relative {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    .admin-search-form .btn-outline,
+    .admin-search-form .btn-primary {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+    .stat-card {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+    .stat-card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    .stat-card-val { font-size: 1.25rem; }
+    .stat-card-label { font-size: 0.6875rem; }
+    .admin-card-header {
+        padding: 1rem;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+    .admin-card-title { font-size: 0.875rem; }
+    .admin-card-body { padding: 1rem; }
+    .admin-table { min-width: 640px; }
+    .admin-table th,
+    .admin-table td {
+        padding: 0.65rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    .admin-table td .flex.items-center.gap-2 {
+        flex-wrap: wrap;
+    }
+    .action-btn {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.7rem;
+    }
+    .admin-form-actions {
+        flex-wrap: wrap;
+    }
+    .admin-form-actions .btn-primary,
+    .admin-form-actions .btn-outline {
+        flex: 1 1 100%;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    #admin-topbar { padding: 0 0.75rem; }
+    #admin-content { padding: 0.75rem; }
+    .sidebar-logo,
+    .sidebar-footer { padding-left: 1rem; padding-right: 1rem; }
+    .sidebar-link { padding: 0.7rem 1rem; }
+    .admin-card-header { padding: 0.875rem; }
+}
+
+@media (max-width: 640px) {
+    .admin-table {
+        min-width: 0;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    .admin-table thead {
+        display: none;
+    }
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td {
+        display: block;
+        width: 100%;
+    }
+    .admin-table tr {
+        border-bottom: 1px solid var(--border);
+        padding: 0.25rem 0;
+    }
+    .admin-table td {
+        border-bottom: none;
+        padding: 0.55rem 0.75rem 0.55rem 7.5rem;
+        position: relative;
+        text-align: left;
+        min-height: 2rem;
+    }
+    .admin-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 6.25rem;
+        color: var(--text);
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }

@@ -28,16 +28,17 @@ include __DIR__ . '/views/layouts/header.php';
 
     <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-24">
         <div class="max-w-4xl">
-            <div class="section-label fade-up">Industrial Intelligence</div>
+            <div class="section-label fade-up">Welcome! Let us serve you!</div>
             
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-800 leading-none tracking-tight mb-8 fade-up" style="transition-delay:0.1s">
-                Engineering<br>
-                <span class="text-htec-red">Tomorrow's</span><br>
-                Industry
+                Hometech<br>
+                <span class="text-htec-red">Engineo</span><br>
+                Control Co.
             </h1>
             
             <p class="text-xl text-htec-text max-w-2xl leading-relaxed mb-10 fade-up" style="transition-delay:0.2s">
-                From factory floors to smart grids — HTEC delivers precision automation, power systems engineering, and IIoT solutions trusted by industry leaders worldwide.
+            Hometech provides security systems and internal communication solutions
+            for businesses and organizations seeking safer, smarter, and more efficient spaces.
             </p>
             
             <div class="flex flex-wrap gap-4 fade-up" style="transition-delay:0.3s">
@@ -63,7 +64,7 @@ include __DIR__ . '/views/layouts/header.php';
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
             <div class="counter-block text-center">
-                <div class="font-display font-700 text-4xl text-white" data-counter="20" data-suffix="+">0</div>
+                <div class="font-display font-700 text-4xl text-white" data-counter="30" data-suffix="+">0</div>
                 <div class="text-htec-text text-sm mt-2 tracking-wide">Years Experience</div>
             </div>
             <div class="counter-block text-center">
@@ -72,7 +73,7 @@ include __DIR__ . '/views/layouts/header.php';
             </div>
             <div class="counter-block text-center">
                 <div class="font-display font-700 text-4xl text-white" data-counter="38" data-suffix="">0</div>
-                <div class="text-htec-text text-sm mt-2 tracking-wide">Countries Served</div>
+                <div class="text-htec-text text-sm mt-2 tracking-wide">Cities Served</div>
             </div>
             <div class="counter-block text-center">
                 <div class="font-display font-700 text-4xl text-white" data-counter="99" data-suffix="%">0</div>
@@ -87,8 +88,8 @@ include __DIR__ . '/views/layouts/header.php';
 <section class="py-24 max-w-7xl mx-auto px-6 lg:px-8">
     <div class="flex items-end justify-between mb-14">
         <div>
-            <div class="section-label fade-up">Product Portfolio</div>
-            <h2 class="text-4xl md:text-5xl font-display font-700 leading-tight fade-up">Featured<br>Products</h2>
+            <div class="section-label fade-up">Our Sollutions</div>
+            <h2 class="text-4xl md:text-5xl font-display font-700 leading-tight fade-up">Recommended<br>Products</h2>
         </div>
         <a href="<?= url('products.php') ?>" class="btn-outline btn-sm hidden md:inline-flex">
             All Products <i class="fas fa-arrow-right ml-2"></i>
@@ -129,9 +130,9 @@ include __DIR__ . '/views/layouts/header.php';
 <section class="py-24 bg-htec-gray border-t border-htec-border">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="text-center mb-16">
-            <div class="section-label justify-center fade-up">What We Do</div>
+            <div class="section-label justify-center fade-up">What We Do?</div>
             <h2 class="text-4xl md:text-5xl font-display font-700 mt-2 fade-up">Engineering Services</h2>
-            <p class="text-htec-text mt-4 max-w-xl mx-auto fade-up">End-to-end solutions from concept through commissioning, backed by two decades of deep industry expertise.</p>
+            <p class="text-htec-text mt-4 max-w-xl mx-auto fade-up">End-to-end solutions from concept through commissioning, backed by three decades of deep industry expertise.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

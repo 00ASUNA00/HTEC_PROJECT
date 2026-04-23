@@ -16,7 +16,12 @@ $currentUser  = getCurrentUser();
 $adminActivePage = $adminActivePage ?? '';
 ?>
 <!-- Sidebar Overlay (mobile) -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden" onclick="document.getElementById('admin-sidebar').classList.remove('open')"></div>
+<div
+    id="sidebar-overlay"
+    class="fixed inset-0 bg-black/60 z-40 lg:hidden"
+    aria-hidden="true"
+    style="display:none;pointer-events:none;"
+></div>
 
 <!-- Sidebar -->
 <aside id="admin-sidebar">

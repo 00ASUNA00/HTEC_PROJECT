@@ -95,7 +95,7 @@ include __DIR__ . '/views/layouts/header.php';
 <div class="py-16 text-center">
     <div class="max-w-2xl mx-auto px-6 fade-up">
         <h2 class="text-3xl font-display font-700 mb-4">Let's Build Something Great</h2>
-        <p class="text-htec-text mb-8">Ready to start your next industrial technology project?</p>
+        <p class="text-htec-text mb-8">Ready to start your next technology project?</p>
         <a href="<?= url('contact.php') ?>" class="btn-primary px-10 py-4">Get in Touch</a>
     </div>
 </div>

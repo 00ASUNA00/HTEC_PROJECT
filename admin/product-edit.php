@@ -226,7 +226,7 @@ include __DIR__ . '/../views/admin/header.php';
                         <input type="checkbox" name="featured" id="featured" value="1" <?= ($data['featured'] ?? 0) ? 'checked' : '' ?> class="w-4 h-4 accent-red-600">
                         <label for="featured" class="text-sm text-white cursor-pointer">Featured on homepage</label>
                     </div>
-                    <div class="border-t border-htec-border pt-4 flex gap-3">
+                    <div class="admin-form-actions border-t border-htec-border pt-4 flex gap-3">
                         <button type="submit" class="btn-primary btn-sm flex-1 justify-center">
                             <?= $isEdit ? 'Update' : 'Create' ?> Product
                         </button>

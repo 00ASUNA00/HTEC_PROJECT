@@ -39,7 +39,7 @@ include __DIR__ . '/views/layouts/header.php';
 </div>
 
 <!-- Filters & Search -->
-<div class="sticky top-20 z-30 bg-htec-dark/95 backdrop-blur border-b border-htec-border">
+<div id="products-filter-bar" class="bg-htec-dark/95 backdrop-blur border-b border-htec-border">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4">
         <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
             <!-- Category Filters -->

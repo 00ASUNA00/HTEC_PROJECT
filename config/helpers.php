@@ -7,15 +7,6 @@ require_once __DIR__ . '/database.php';
 
 // Start session
 if (session_status() === PHP_SESSION_NONE) {
-    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'domain' => '',
-        'secure' => $isHttps,
-        'httponly' => true,
-        'samesite' => 'Lax',
-    ]);
     session_name(SESSION_NAME);
     session_start();
 }
@@ -25,25 +16,15 @@ if (session_status() === PHP_SESSION_NONE) {
 // ============================================================
 
 function generateCsrfToken(): string {
-    if (empty($_SESSION[CSRF_TOKEN_NAME]) || empty($_SESSION['_csrf_token_expires']) || $_SESSION['_csrf_token_expires'] < time()) {
+    if (empty($_SESSION[CSRF_TOKEN_NAME])) {
         $_SESSION[CSRF_TOKEN_NAME] = bin2hex(random_bytes(32));
-        $_SESSION['_csrf_token_expires'] = time() + 3600;
     }
     return $_SESSION[CSRF_TOKEN_NAME];
 }
 
 function verifyCsrfToken(string $token): bool {
-    $valid = isset($_SESSION[CSRF_TOKEN_NAME], $_SESSION['_csrf_token_expires'])
-        && $_SESSION['_csrf_token_expires'] >= time()
+    return isset($_SESSION[CSRF_TOKEN_NAME]) 
         && hash_equals($_SESSION[CSRF_TOKEN_NAME], $token);
-
-    // Rotate after every validation attempt to reduce replay window.
-    if ($valid) {
-        $_SESSION[CSRF_TOKEN_NAME] = bin2hex(random_bytes(32));
-        $_SESSION['_csrf_token_expires'] = time() + 3600;
-    }
-
-    return $valid;
 }
 
 function csrfField(): string {
@@ -105,14 +86,6 @@ function requireLogin(): void {
     }
 }
 
-function requireAdmin(): void {
-    requireLogin();
-    if (($_SESSION['admin_role'] ?? '') !== 'admin') {
-        http_response_code(403);
-        exit('Forbidden');
-    }
-}
-
 function getCurrentUser(): ?array {
     if (!isLoggedIn()) return null;
     $db = getDB();
@@ -120,7 +93,17 @@ function getCurrentUser(): ?array {
     $stmt->execute([$_SESSION['admin_id']]);
     return $stmt->fetch() ?: null;
 }
+function requireAdmin(): void {
+    requireLogin(); // เช็คว่าล็อกอินก่อน
 
+    $user = getCurrentUser();
+
+    if (!$user || $user['role'] !== 'admin') {
+        // กัน user ธรรมดาเข้า
+        header('Location: ' . APP_URL . '/admin/login.php');
+        exit;
+    }
+}
 // ============================================================
 // Input Sanitization
 // ============================================================
@@ -196,33 +179,14 @@ function uploadFile(array $file, string $subDir, array $allowedTypes, int $maxSi
     
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mimeType = finfo_file($finfo, $file['tmp_name']);
-    finfo_close($finfo);
+    
     
     if (!in_array($mimeType, $allowedTypes)) {
         return ['success' => false, 'error' => 'Invalid file type: ' . $mimeType];
     }
     
-    $safeExtensions = [
-        'image/jpeg' => 'jpg',
-        'image/png' => 'png',
-        'image/webp' => 'webp',
-        'image/gif' => 'gif',
-        'application/pdf' => 'pdf',
-    ];
-    if (!isset($safeExtensions[$mimeType])) {
-        return ['success' => false, 'error' => 'Unsupported MIME type'];
-    }
-
-    // For images, verify file structure is actually an image.
-    if (str_starts_with($mimeType, 'image/')) {
-        $imgInfo = @getimagesize($file['tmp_name']);
-        if ($imgInfo === false) {
-            return ['success' => false, 'error' => 'Invalid image content'];
-        }
-    }
-
-    $ext = $safeExtensions[$mimeType];
-    $fileName = uniqid('htec_', true) . '.' . $ext;
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $fileName = uniqid('htec_', true) . '.' . strtolower($ext);
     $uploadPath = UPLOAD_DIR . $subDir . '/';
     
     if (!is_dir($uploadPath)) {
@@ -239,27 +203,8 @@ function uploadFile(array $file, string $subDir, array $allowedTypes, int $maxSi
 }
 
 function deleteFile(string $relativePath): bool {
-    $relativePath = ltrim($relativePath, '/\\');
-    if ($relativePath === '' || str_contains($relativePath, "\0")) {
-        return false;
-    }
-
-    $uploadRoot = realpath(UPLOAD_DIR);
-    if ($uploadRoot === false) {
-        return false;
-    }
-
-    $fullPath = realpath(UPLOAD_DIR . $relativePath);
-    if ($fullPath === false) {
-        return false;
-    }
-
-    // Ensure resolved file is inside upload directory.
-    if (strpos($fullPath, $uploadRoot . DIRECTORY_SEPARATOR) !== 0) {
-        return false;
-    }
-
-    if (is_file($fullPath)) {
+    $fullPath = UPLOAD_DIR . ltrim($relativePath, '/');
+    if (file_exists($fullPath)) {
         return unlink($fullPath);
     }
     return false;
