@@ -30,7 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     redirect(url('admin/contacts.php'));
 }
 
-$messages = $contactModel->getAll();
+$page     = max(1, sanitizeInt($_GET['page'] ?? 1));
+$perPage  = 20;
+$total    = $contactModel->countAll();
+$pager    = paginate($total, $perPage, $page);
+$messages = $contactModel->getPaginated($perPage, $pager['offset']);
 
 include __DIR__ . '/../views/admin/header.php';
 ?>
@@ -42,7 +46,7 @@ include __DIR__ . '/../views/admin/header.php';
             <span class="breadcrumb-sep">/</span>
             <span class="text-white">Messages</span>
         </div>
-        <p class="text-htec-text text-sm"><?= count($messages) ?> message(s)</p>
+        <p class="text-htec-text text-sm"><?= $total ?> message(s)</p>
     </div>
 </div>
 
@@ -124,5 +128,23 @@ include __DIR__ . '/../views/admin/header.php';
         </table>
     </div>
 </div>
+
+<?php if ($pager['total_pages'] > 1): ?>
+<div class="mt-6 flex items-center justify-center gap-2">
+    <a href="?page=<?= $pager['prev_page'] ?>" class="page-btn <?= !$pager['has_prev'] ? 'disabled' : '' ?>">
+        <i class="fas fa-chevron-left text-xs"></i>
+    </a>
+    <?php for ($p = 1; $p <= $pager['total_pages']; $p++): ?>
+        <?php if ($p === 1 || $p === $pager['total_pages'] || abs($p - $pager['current']) <= 2): ?>
+            <a href="?page=<?= $p ?>" class="page-btn <?= $p === $pager['current'] ? 'active' : '' ?>"><?= $p ?></a>
+        <?php elseif (abs($p - $pager['current']) === 3): ?>
+            <span class="page-btn" style="pointer-events:none">…</span>
+        <?php endif; ?>
+    <?php endfor; ?>
+    <a href="?page=<?= $pager['next_page'] ?>" class="page-btn <?= !$pager['has_next'] ? 'disabled' : '' ?>">
+        <i class="fas fa-chevron-right text-xs"></i>
+    </a>
+</div>
+<?php endif; ?>
 
 <?php include __DIR__ . '/../views/admin/footer.php'; ?>

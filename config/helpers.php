@@ -7,6 +7,24 @@ require_once __DIR__ . '/database.php';
 
 // Start session
 if (session_status() === PHP_SESSION_NONE) {
+    $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (($_SERVER['SERVER_PORT'] ?? null) == 443);
+    $isProduction = defined('APP_ENV') && APP_ENV === 'production';
+
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    ini_set('session.cookie_httponly', '1');
+    ini_set('session.cookie_secure', ($isProduction || $isHttps) ? '1' : '0');
+
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '',
+        'secure' => $isProduction || $isHttps,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+
     session_name(SESSION_NAME);
     session_start();
 }

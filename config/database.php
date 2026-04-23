@@ -68,6 +68,7 @@ define('DB_CHARSET', env('DB_CHARSET', 'utf8mb4'));
 define('APP_NAME', env('APP_NAME', 'HTEC'));
 define('APP_URL', env('APP_URL', 'http://localhost/HTEC_PROJECT/htec'));
 define('APP_VERSION', env('APP_VERSION', '1.0.0'));
+define('APP_ENV', env('APP_ENV', 'development'));
 
 // Upload Settings
 define('UPLOAD_DIR', __DIR__ . '/../uploads/');
@@ -79,6 +80,11 @@ define('ALLOWED_PDF_TYPES', ['application/pdf']);
 // Session
 define('SESSION_NAME', env('SESSION_NAME', 'htec_session'));
 define('CSRF_TOKEN_NAME', env('CSRF_TOKEN_NAME', '_csrf_token'));
+
+// Runtime hardening by environment
+$isProduction = APP_ENV === 'production';
+ini_set('display_errors', $isProduction ? '0' : '1');
+error_reporting($isProduction ? E_ALL & ~E_DEPRECATED & ~E_STRICT : E_ALL);
 
 /**
  * Get PDO Database Connection (Singleton)

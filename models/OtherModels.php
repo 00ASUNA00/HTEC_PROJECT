@@ -13,6 +13,20 @@ class PortfolioModel {
         return $this->db->query("SELECT * FROM portfolio {$where} ORDER BY sort_order ASC, created_at DESC")->fetchAll();
     }
 
+    public function getAdminPaginated(int $limit, int $offset): array {
+        $stmt = $this->db->prepare("
+            SELECT * FROM portfolio
+            ORDER BY sort_order ASC, created_at DESC
+            LIMIT ? OFFSET ?
+        ");
+        $stmt->execute([$limit, $offset]);
+        return $stmt->fetchAll();
+    }
+
+    public function countAll(): int {
+        return (int) $this->db->query("SELECT COUNT(*) FROM portfolio")->fetchColumn();
+    }
+
     public function getOne(int $id): ?array {
         $stmt = $this->db->prepare("SELECT * FROM portfolio WHERE id = ?");
         $stmt->execute([$id]);
@@ -74,6 +88,20 @@ class ContactModel {
 
     public function getAll(): array {
         return $this->db->query("SELECT * FROM contacts ORDER BY created_at DESC")->fetchAll();
+    }
+
+    public function getPaginated(int $limit, int $offset): array {
+        $stmt = $this->db->prepare("
+            SELECT * FROM contacts
+            ORDER BY created_at DESC
+            LIMIT ? OFFSET ?
+        ");
+        $stmt->execute([$limit, $offset]);
+        return $stmt->fetchAll();
+    }
+
+    public function countAll(): int {
+        return (int) $this->db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
     }
 
     public function markRead(int $id): bool {

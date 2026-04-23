@@ -28,7 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
 }
 
 $search   = sanitize($_GET['search'] ?? '');
-$products = $productModel->adminGetAll($search);
+$page     = max(1, sanitizeInt($_GET['page'] ?? 1));
+$perPage  = 20;
+$total    = $productModel->adminCount($search);
+$pager    = paginate($total, $perPage, $page);
+$products = $productModel->adminGetAll($search, $perPage, $pager['offset']);
 
 include __DIR__ . '/../views/admin/header.php';
 ?>
@@ -41,7 +45,7 @@ include __DIR__ . '/../views/admin/header.php';
             <span class="breadcrumb-sep">/</span>
             <span class="text-white">Products</span>
         </div>
-        <p class="text-htec-text text-sm"><?= count($products) ?> product(s) total</p>
+        <p class="text-htec-text text-sm"><?= $total ?> product(s) total</p>
     </div>
     <a href="<?= url('admin/product-edit.php') ?>" class="btn-primary btn-sm shrink-0">
         <i class="fas fa-plus mr-2"></i> Add Product
@@ -138,5 +142,24 @@ include __DIR__ . '/../views/admin/header.php';
         </table>
     </div>
 </div>
+
+<?php if ($pager['total_pages'] > 1): ?>
+<div class="mt-6 flex items-center justify-center gap-2">
+    <?php $base = '?search=' . urlencode($search) . '&page='; ?>
+    <a href="<?= $base . $pager['prev_page'] ?>" class="page-btn <?= !$pager['has_prev'] ? 'disabled' : '' ?>">
+        <i class="fas fa-chevron-left text-xs"></i>
+    </a>
+    <?php for ($p = 1; $p <= $pager['total_pages']; $p++): ?>
+        <?php if ($p === 1 || $p === $pager['total_pages'] || abs($p - $pager['current']) <= 2): ?>
+            <a href="<?= $base . $p ?>" class="page-btn <?= $p === $pager['current'] ? 'active' : '' ?>"><?= $p ?></a>
+        <?php elseif (abs($p - $pager['current']) === 3): ?>
+            <span class="page-btn" style="pointer-events:none">…</span>
+        <?php endif; ?>
+    <?php endfor; ?>
+    <a href="<?= $base . $pager['next_page'] ?>" class="page-btn <?= !$pager['has_next'] ? 'disabled' : '' ?>">
+        <i class="fas fa-chevron-right text-xs"></i>
+    </a>
+</div>
+<?php endif; ?>
 
 <?php include __DIR__ . '/../views/admin/footer.php'; ?>

@@ -199,8 +199,8 @@ class ProductModel {
         return $s;
     }
 
-    /** Admin: all products regardless of status */
-    public function adminGetAll(string $search = ''): array {
+    /** Admin: all products regardless of status (paginated) */
+    public function adminGetAll(string $search = '', int $limit = 25, int $offset = 0): array {
         $params = [];
         $where = '';
         if ($search) {
@@ -209,14 +209,33 @@ class ProductModel {
             $params = [$s, $s];
         }
         $stmt = $this->db->prepare("
-            SELECT p.*, c.name AS category_name,
-                   (SELECT image_path FROM product_images WHERE product_id = p.id AND is_primary = 1 LIMIT 1) AS primary_image
+            SELECT p.*, c.name AS category_name, pi.image_path AS primary_image
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
+            LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = 1
             {$where}
             ORDER BY p.created_at DESC
+            LIMIT ? OFFSET ?
         ");
+        $params[] = $limit;
+        $params[] = $offset;
         $stmt->execute($params);
         return $stmt->fetchAll();
+    }
+
+    public function adminCount(string $search = ''): int {
+        $params = [];
+        $where = '';
+        if ($search) {
+            $where = "WHERE p.name LIKE ? OR p.short_description LIKE ?";
+            $s = '%' . $search . '%';
+            $params = [$s, $s];
+        }
+        $stmt = $this->db->prepare("
+            SELECT COUNT(*) FROM products p
+            {$where}
+        ");
+        $stmt->execute($params);
+        return (int) $stmt->fetchColumn();
     }
 }
